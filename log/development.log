@@ -1,0 +1,740 @@
+  [1m[36mSQL (0.3ms)[0m  [1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [1m[35mSQL (0.1ms)[0m  select sqlite_version(*)
+  [1m[36mSQL (2.4ms)[0m  [1mCREATE TABLE "schema_migrations" ("version" varchar(255) NOT NULL) [0m
+  [1m[35mSQL (0.1ms)[0m  PRAGMA index_list("schema_migrations")
+  [1m[36mSQL (0.7ms)[0m  [1mCREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")[0m
+  [1m[35mSQL (0.1ms)[0m   SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+  [1m[36mSQL (0.1ms)[0m  [1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [1m[35mSQL (0.1ms)[0m  SELECT "schema_migrations"."version" FROM "schema_migrations"
+Migrating to CreateGalleries (20110213032730)
+  [1m[36mSQL (0.4ms)[0m  [1mCREATE TABLE "galleries" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255), "created_at" datetime, "updated_at" datetime) [0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ('20110213032730')
+Migrating to CreatePaintings (20110213032940)
+  [1m[36mSQL (0.7ms)[0m  [1mCREATE TABLE "paintings" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "gallery_id" integer, "name" varchar(255), "created_at" datetime, "updated_at" datetime) [0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ('20110213032940')
+Migrating to AddImageToPaintings (20110213051146)
+  [1m[36mSQL (0.4ms)[0m  [1mALTER TABLE "paintings" ADD "image" varchar(255)[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ('20110213051146')
+  [1m[36mSQL (0.2ms)[0m  [1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [1m[35mSQL (0.1ms)[0m  SELECT "schema_migrations"."version" FROM "schema_migrations"
+  [1m[36mSQL (0.1ms)[0m  [1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [1m[35mSQL (0.0ms)[0m  PRAGMA index_list("galleries")
+  [1m[36mSQL (0.0ms)[0m  [1mPRAGMA index_list("paintings")[0m
+
+
+Started GET "/" for 127.0.0.1 at 2014-01-18 18:31:20 +0800
+  Processing by GalleriesController#index as HTML
+  [1m[36mGallery Load (0.4ms)[0m  [1mSELECT "galleries".* FROM "galleries"[0m
+Rendered galleries/index.html.erb within layouts/application (2.0ms)
+Completed 200 OK in 44ms (Views: 5.1ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/galleries/new" for 127.0.0.1 at 2014-01-18 18:31:22 +0800
+  Processing by GalleriesController#new as HTML
+Rendered galleries/_form.html.erb (8.8ms)
+Rendered galleries/new.html.erb within layouts/application (11.5ms)
+Completed 200 OK in 23ms (Views: 14.2ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/galleries" for 127.0.0.1 at 2014-01-18 18:31:27 +0800
+  Processing by GalleriesController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"oDJkfKvRwvRhsI/eI/Sg3KCqG1jqI3gvDJZ/OlpUbCo=", "gallery"=>{"name"=>"test"}, "commit"=>"Create Gallery"}
+  [1m[35mSQL (0.2ms)[0m   SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+  [1m[36mAREL (0.5ms)[0m  [1mINSERT INTO "galleries" ("name", "created_at", "updated_at") VALUES ('test', '2014-01-18 10:31:27.189811', '2014-01-18 10:31:27.189811')[0m
+Redirected to http://localhost:3000/galleries/1
+Completed 302 Found in 39ms
+
+
+Started GET "/galleries/1" for 127.0.0.1 at 2014-01-18 18:31:27 +0800
+  Processing by GalleriesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mGallery Load (0.2ms)[0m  SELECT "galleries".* FROM "galleries" WHERE ("galleries"."id" = 1) LIMIT 1
+  [1m[36mPainting Load (0.2ms)[0m  [1mSELECT "paintings".* FROM "paintings" WHERE ("paintings".gallery_id = 1)[0m
+Rendered galleries/show.html.erb within layouts/application (60.4ms)
+Completed 200 OK in 72ms (Views: 63.1ms | ActiveRecord: 1.1ms)
+
+
+Started GET "/paintings/new?gallery_id=1" for 127.0.0.1 at 2014-01-18 18:31:28 +0800
+  Processing by PaintingsController#new as HTML
+  Parameters: {"gallery_id"=>"1"}
+Rendered paintings/_form.html.erb (2.2ms)
+  [1m[35mGallery Load (0.1ms)[0m  SELECT "galleries".* FROM "galleries" WHERE ("galleries"."id" = 1) LIMIT 1
+Rendered paintings/new.html.erb within layouts/application (17.2ms)
+Completed 200 OK in 56ms (Views: 19.9ms | ActiveRecord: 0.1ms)
+
+
+Started GET "/galleries/1" for 127.0.0.1 at 2014-01-18 18:31:56 +0800
+  Processing by GalleriesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mGallery Load (0.1ms)[0m  [1mSELECT "galleries".* FROM "galleries" WHERE ("galleries"."id" = 1) LIMIT 1[0m
+  [1m[35mPainting Load (0.2ms)[0m  SELECT "paintings".* FROM "paintings" WHERE ("paintings".gallery_id = 1)
+Rendered galleries/show.html.erb within layouts/application (41.8ms)
+Completed 200 OK in 52ms (Views: 44.2ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/paintings/new?gallery_id=1" for 127.0.0.1 at 2014-01-18 18:31:58 +0800
+  Processing by PaintingsController#new as HTML
+  Parameters: {"gallery_id"=>"1"}
+Rendered paintings/_form.html.erb (2.2ms)
+  [1m[36mGallery Load (0.1ms)[0m  [1mSELECT "galleries".* FROM "galleries" WHERE ("galleries"."id" = 1) LIMIT 1[0m
+Rendered paintings/new.html.erb within layouts/application (34.6ms)
+Completed 200 OK in 54ms (Views: 37.1ms | ActiveRecord: 0.1ms)
+
+
+Started POST "/paintings" for 127.0.0.1 at 2014-01-18 18:32:09 +0800
+  Processing by PaintingsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"oDJkfKvRwvRhsI/eI/Sg3KCqG1jqI3gvDJZ/OlpUbCo=", "painting"=>{"gallery_id"=>"1", "name"=>"abc", "image"=>#<ActionDispatch::Http::UploadedFile:0x007fa1a6cb9e28 @original_filename="untitled.txt", @content_type="text/plain", @headers="Content-Disposition: form-data; name=\"painting[image]\"; filename=\"untitled.txt\"\r\nContent-Type: text/plain\r\n", @tempfile=#<File:/var/folders/gv/m43y5g9x1xdc9f2kc2p0kpz00000gn/T/RackMultipart20140118-90363-1k3sezy>>, "remote_image_url"=>""}, "commit"=>"Create Painting"}
+  [1m[35mAREL (0.3ms)[0m  INSERT INTO "paintings" ("gallery_id", "name", "created_at", "updated_at", "image") VALUES (1, 'abc', '2014-01-18 10:32:09.873564', '2014-01-18 10:32:09.873564', 'untitled.txt')
+  [1m[36mGallery Load (0.2ms)[0m  [1mSELECT "galleries".* FROM "galleries" WHERE ("galleries"."id" = 1) LIMIT 1[0m
+Redirected to http://localhost:3000/galleries/1
+Completed 302 Found in 60ms
+
+
+Started GET "/galleries/1" for 127.0.0.1 at 2014-01-18 18:32:09 +0800
+  Processing by GalleriesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mGallery Load (0.1ms)[0m  SELECT "galleries".* FROM "galleries" WHERE ("galleries"."id" = 1) LIMIT 1
+  [1m[36mPainting Load (0.2ms)[0m  [1mSELECT "paintings".* FROM "paintings" WHERE ("paintings".gallery_id = 1)[0m
+Rendered galleries/show.html.erb within layouts/application (51.2ms)
+Completed   in 61ms
+
+ActionView::Template::Error (Version thumb doesn't exist!):
+    3: <div id="paintings">
+    4:   <% for painting in @gallery.paintings %>
+    5:     <div class="painting">
+    6:       <%= image_tag painting.image_url(:thumb) if painting.image? %>
+    7:       <div class="name"><%= painting.name %></div>
+    8:       <div class="actions">
+    9:         <%= link_to "edit", edit_painting_path(painting) %> |
+  app/views/galleries/show.html.erb:6:in `block in _app_views_galleries_show_html_erb__2381017910560560684_70166137298520__1531514403873950921'
+  app/views/galleries/show.html.erb:4:in `_app_views_galleries_show_html_erb__2381017910560560684_70166137298520__1531514403873950921'
+
+Rendered /Users/twer/.rvm/gems/ruby-1.9.3-p448/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (0.8ms)
+Rendered /Users/twer/.rvm/gems/ruby-1.9.3-p448/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (3.0ms)
+Rendered /Users/twer/.rvm/gems/ruby-1.9.3-p448/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (6.8ms)
+
+
+Started POST "/paintings" for 127.0.0.1 at 2014-01-18 18:33:52 +0800
+  Processing by PaintingsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"oDJkfKvRwvRhsI/eI/Sg3KCqG1jqI3gvDJZ/OlpUbCo=", "painting"=>{"gallery_id"=>"1", "name"=>"abc", "image"=>#<ActionDispatch::Http::UploadedFile:0x007fa1a6c65260 @original_filename="20130918_093314.jpg", @content_type="image/jpeg", @headers="Content-Disposition: form-data; name=\"painting[image]\"; filename=\"20130918_093314.jpg\"\r\nContent-Type: image/jpeg\r\n", @tempfile=#<File:/var/folders/gv/m43y5g9x1xdc9f2kc2p0kpz00000gn/T/RackMultipart20140118-90363-mbogpy>>, "remote_image_url"=>""}, "commit"=>"Create Painting"}
+  [1m[35mAREL (0.3ms)[0m  INSERT INTO "paintings" ("gallery_id", "name", "created_at", "updated_at", "image") VALUES (1, 'abc', '2014-01-18 10:33:52.269229', '2014-01-18 10:33:52.269229', '20130918_093314.jpg')
+  [1m[36mGallery Load (0.3ms)[0m  [1mSELECT "galleries".* FROM "galleries" WHERE ("galleries"."id" = 1) LIMIT 1[0m
+Redirected to http://localhost:3000/galleries/1
+Completed 302 Found in 67ms
+
+
+Started GET "/galleries/1" for 127.0.0.1 at 2014-01-18 18:33:52 +0800
+  Processing by GalleriesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mGallery Load (0.3ms)[0m  SELECT "galleries".* FROM "galleries" WHERE ("galleries"."id" = 1) LIMIT 1
+  [1m[36mPainting Load (0.2ms)[0m  [1mSELECT "paintings".* FROM "paintings" WHERE ("paintings".gallery_id = 1)[0m
+Rendered galleries/show.html.erb within layouts/application (27.3ms)
+Completed   in 39ms
+
+ActionView::Template::Error (Version thumb doesn't exist!):
+    3: <div id="paintings">
+    4:   <% for painting in @gallery.paintings %>
+    5:     <div class="painting">
+    6:       <%= image_tag painting.image_url(:thumb) if painting.image? %>
+    7:       <div class="name"><%= painting.name %></div>
+    8:       <div class="actions">
+    9:         <%= link_to "edit", edit_painting_path(painting) %> |
+  app/views/galleries/show.html.erb:6:in `block in _app_views_galleries_show_html_erb__2381017910560560684_70166120451800__1531514403873950921'
+  app/views/galleries/show.html.erb:4:in `_app_views_galleries_show_html_erb__2381017910560560684_70166120451800__1531514403873950921'
+
+Rendered /Users/twer/.rvm/gems/ruby-1.9.3-p448/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (0.9ms)
+Rendered /Users/twer/.rvm/gems/ruby-1.9.3-p448/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (2.2ms)
+Rendered /Users/twer/.rvm/gems/ruby-1.9.3-p448/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (5.5ms)
+
+
+Started GET "/" for 127.0.0.1 at 2014-01-18 18:34:37 +0800
+  Processing by GalleriesController#index as HTML
+  [1m[36mGallery Load (0.5ms)[0m  [1mSELECT "galleries".* FROM "galleries"[0m
+  [1m[35mSQL (0.3ms)[0m  SELECT COUNT(*) FROM "paintings" WHERE ("paintings".gallery_id = 1)
+Rendered galleries/index.html.erb within layouts/application (75.2ms)
+Completed 200 OK in 120ms (Views: 78.1ms | ActiveRecord: 0.7ms)
+
+
+Started GET "/galleries/1" for 127.0.0.1 at 2014-01-18 18:34:39 +0800
+  Processing by GalleriesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mSQL (0.3ms)[0m  [1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [1m[35mGallery Load (0.2ms)[0m  SELECT "galleries".* FROM "galleries" WHERE ("galleries"."id" = 1) LIMIT 1
+  [1m[36mPainting Load (0.3ms)[0m  [1mSELECT "paintings".* FROM "paintings" WHERE ("paintings".gallery_id = 1)[0m
+Rendered galleries/show.html.erb within layouts/application (46.9ms)
+Completed   in 58ms
+
+ActionView::Template::Error (Version thumb doesn't exist!):
+    3: <div id="paintings">
+    4:   <% for painting in @gallery.paintings %>
+    5:     <div class="painting">
+    6:      <!-- <%= image_tag painting.image_url(:thumb) if painting.image? %> -->
+    7:       <div class="name"><%= painting.name %></div>
+    8:       <div class="actions">
+    9:         <%= link_to "edit", edit_painting_path(painting) %> |
+  app/views/galleries/show.html.erb:6:in `block in _app_views_galleries_show_html_erb___563475814484480708_70250551835860_4524478080732600732'
+  app/views/galleries/show.html.erb:4:in `_app_views_galleries_show_html_erb___563475814484480708_70250551835860_4524478080732600732'
+
+Rendered /Users/twer/.rvm/gems/ruby-1.9.3-p448/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (0.8ms)
+Rendered /Users/twer/.rvm/gems/ruby-1.9.3-p448/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (2.3ms)
+Rendered /Users/twer/.rvm/gems/ruby-1.9.3-p448/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (5.8ms)
+
+
+Started GET "/" for 127.0.0.1 at 2014-01-18 18:35:16 +0800
+  Processing by GalleriesController#index as HTML
+  [1m[36mGallery Load (0.6ms)[0m  [1mSELECT "galleries".* FROM "galleries"[0m
+  [1m[35mSQL (0.2ms)[0m  SELECT COUNT(*) FROM "paintings" WHERE ("paintings".gallery_id = 1)
+Rendered galleries/index.html.erb within layouts/application (76.2ms)
+Completed 200 OK in 123ms (Views: 78.7ms | ActiveRecord: 0.8ms)
+
+
+Started GET "/galleries/1" for 127.0.0.1 at 2014-01-18 18:35:18 +0800
+  Processing by GalleriesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mSQL (0.3ms)[0m  [1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [1m[35mGallery Load (0.1ms)[0m  SELECT "galleries".* FROM "galleries" WHERE ("galleries"."id" = 1) LIMIT 1
+  [1m[36mPainting Load (0.3ms)[0m  [1mSELECT "paintings".* FROM "paintings" WHERE ("paintings".gallery_id = 1)[0m
+Rendered galleries/show.html.erb within layouts/application (46.2ms)
+Completed 200 OK in 57ms (Views: 48.5ms | ActiveRecord: 0.7ms)
+
+
+Started GET "/paintings/1/edit" for 127.0.0.1 at 2014-01-18 18:35:20 +0800
+  Processing by PaintingsController#edit as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mPainting Load (0.3ms)[0m  SELECT "paintings".* FROM "paintings" WHERE ("paintings"."id" = 1) LIMIT 1
+Rendered paintings/_form.html.erb (30.2ms)
+  [1m[36mGallery Load (0.1ms)[0m  [1mSELECT "galleries".* FROM "galleries" WHERE ("galleries"."id" = 1) LIMIT 1[0m
+Rendered paintings/edit.html.erb within layouts/application (47.4ms)
+Completed 200 OK in 65ms (Views: 50.9ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/paintings/2/edit" for 127.0.0.1 at 2014-01-18 18:35:32 +0800
+  Processing by PaintingsController#edit as HTML
+  Parameters: {"id"=>"2"}
+  [1m[35mPainting Load (0.1ms)[0m  SELECT "paintings".* FROM "paintings" WHERE ("paintings"."id" = 2) LIMIT 1
+Rendered paintings/_form.html.erb (27.4ms)
+  [1m[36mGallery Load (0.3ms)[0m  [1mSELECT "galleries".* FROM "galleries" WHERE ("galleries"."id" = 1) LIMIT 1[0m
+Rendered paintings/edit.html.erb within layouts/application (43.3ms)
+Completed 200 OK in 60ms (Views: 45.9ms | ActiveRecord: 0.4ms)
+
+
+Started POST "/paintings/2" for 127.0.0.1 at 2014-01-18 18:35:46 +0800
+  Processing by PaintingsController#update as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"oDJkfKvRwvRhsI/eI/Sg3KCqG1jqI3gvDJZ/OlpUbCo=", "painting"=>{"gallery_id"=>"1", "name"=>"abc", "image"=>#<ActionDispatch::Http::UploadedFile:0x007f9fd02727f8 @original_filename="sophie&i.JPG", @content_type="image/jpeg", @headers="Content-Disposition: form-data; name=\"painting[image]\"; filename=\"sophie&i.JPG\"\r\nContent-Type: image/jpeg\r\n", @tempfile=#<File:/var/folders/gv/m43y5g9x1xdc9f2kc2p0kpz00000gn/T/RackMultipart20140118-90427-k473y9>>, "remote_image_url"=>""}, "commit"=>"Update Painting", "id"=>"2"}
+  [1m[35mPainting Load (0.3ms)[0m  SELECT "paintings".* FROM "paintings" WHERE ("paintings"."id" = 2) LIMIT 1
+  [1m[36mAREL (0.3ms)[0m  [1mUPDATE "paintings" SET "image" = 'sophie_i.jpg', "updated_at" = '2014-01-18 10:35:46.831043' WHERE ("paintings"."id" = 2)[0m
+  [1m[35mGallery Load (0.3ms)[0m  SELECT "galleries".* FROM "galleries" WHERE ("galleries"."id" = 1) LIMIT 1
+Redirected to http://localhost:3000/galleries/1
+Completed 302 Found in 59ms
+
+
+Started GET "/galleries/1" for 127.0.0.1 at 2014-01-18 18:35:46 +0800
+  Processing by GalleriesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mGallery Load (0.1ms)[0m  [1mSELECT "galleries".* FROM "galleries" WHERE ("galleries"."id" = 1) LIMIT 1[0m
+  [1m[35mPainting Load (0.3ms)[0m  SELECT "paintings".* FROM "paintings" WHERE ("paintings".gallery_id = 1)
+Rendered galleries/show.html.erb within layouts/application (47.8ms)
+Completed 200 OK in 58ms (Views: 50.5ms | ActiveRecord: 1.2ms)
+
+
+Started GET "/paintings/1/edit" for 127.0.0.1 at 2014-01-18 18:35:52 +0800
+  Processing by PaintingsController#edit as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mPainting Load (0.2ms)[0m  [1mSELECT "paintings".* FROM "paintings" WHERE ("paintings"."id" = 1) LIMIT 1[0m
+Rendered paintings/_form.html.erb (27.8ms)
+  [1m[35mGallery Load (0.2ms)[0m  SELECT "galleries".* FROM "galleries" WHERE ("galleries"."id" = 1) LIMIT 1
+Rendered paintings/edit.html.erb within layouts/application (45.4ms)
+Completed 200 OK in 63ms (Views: 48.1ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/galleries/1" for 127.0.0.1 at 2014-01-18 18:45:53 +0800
+  Processing by GalleriesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mSQL (1.2ms)[0m  [1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [1m[35mGallery Load (0.4ms)[0m  SELECT "galleries".* FROM "galleries" WHERE ("galleries"."id" = 1) LIMIT 1
+  [1m[36mPainting Load (0.8ms)[0m  [1mSELECT "paintings".* FROM "paintings" WHERE ("paintings".gallery_id = 1)[0m
+Rendered galleries/show.html.erb within layouts/application (97.7ms)
+Completed 200 OK in 156ms (Views: 100.2ms | ActiveRecord: 2.4ms)
+
+
+Started GET "/paintings/new?gallery_id=1" for 127.0.0.1 at 2014-01-18 18:45:56 +0800
+  Processing by PaintingsController#new as HTML
+  Parameters: {"gallery_id"=>"1"}
+Rendered paintings/_form.html.erb (9.8ms)
+  [1m[35mGallery Load (0.1ms)[0m  SELECT "galleries".* FROM "galleries" WHERE ("galleries"."id" = 1) LIMIT 1
+Rendered paintings/new.html.erb within layouts/application (26.6ms)
+Completed 200 OK in 61ms (Views: 29.5ms | ActiveRecord: 0.1ms)
+
+
+Started POST "/paintings" for 127.0.0.1 at 2014-01-18 18:46:12 +0800
+  Processing by PaintingsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"oDJkfKvRwvRhsI/eI/Sg3KCqG1jqI3gvDJZ/OlpUbCo=", "painting"=>{"gallery_id"=>"1", "name"=>"sasa", "image"=>#<ActionDispatch::Http::UploadedFile:0x007fe4a25f28d0 @original_filename="20130918_093331.jpg", @content_type="image/jpeg", @headers="Content-Disposition: form-data; name=\"painting[image]\"; filename=\"20130918_093331.jpg\"\r\nContent-Type: image/jpeg\r\n", @tempfile=#<File:/var/folders/gv/m43y5g9x1xdc9f2kc2p0kpz00000gn/T/RackMultipart20140118-90572-19eqavh>>, "remote_image_url"=>""}, "commit"=>"Create Painting"}
+  [1m[36mAREL (0.8ms)[0m  [1mINSERT INTO "paintings" ("gallery_id", "name", "created_at", "updated_at", "image") VALUES (1, 'sasa', '2014-01-18 10:46:12.228843', '2014-01-18 10:46:12.228843', '20130918_093331.jpg')[0m
+  [1m[35mGallery Load (0.1ms)[0m  SELECT "galleries".* FROM "galleries" WHERE ("galleries"."id" = 1) LIMIT 1
+Redirected to http://localhost:3000/galleries/1
+Completed 302 Found in 90ms
+
+
+Started GET "/galleries/1" for 127.0.0.1 at 2014-01-18 18:46:12 +0800
+  Processing by GalleriesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mGallery Load (0.1ms)[0m  [1mSELECT "galleries".* FROM "galleries" WHERE ("galleries"."id" = 1) LIMIT 1[0m
+  [1m[35mPainting Load (0.3ms)[0m  SELECT "paintings".* FROM "paintings" WHERE ("paintings".gallery_id = 1)
+Rendered galleries/show.html.erb within layouts/application (29.8ms)
+Completed 200 OK in 41ms (Views: 32.8ms | ActiveRecord: 1.4ms)
+
+
+Started GET "/galleries/1" for 127.0.0.1 at 2014-01-18 18:49:43 +0800
+  Processing by GalleriesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mSQL (2.0ms)[0m  [1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [1m[35mGallery Load (0.8ms)[0m  SELECT "galleries".* FROM "galleries" WHERE ("galleries"."id" = 1) LIMIT 1
+  [1m[36mPainting Load (0.7ms)[0m  [1mSELECT "paintings".* FROM "paintings" WHERE ("paintings".gallery_id = 1)[0m
+Rendered galleries/show.html.erb within layouts/application (139.5ms)
+Completed 200 OK in 247ms (Views: 145.8ms | ActiveRecord: 3.5ms)
+
+
+Started GET "/paintings/1/edit" for 127.0.0.1 at 2014-01-18 18:52:44 +0800
+  Processing by PaintingsController#edit as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mSQL (0.4ms)[0m  [1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [1m[35mPainting Load (0.1ms)[0m  SELECT "paintings".* FROM "paintings" WHERE ("paintings"."id" = 1) LIMIT 1
+Rendered paintings/_form.html.erb (26.7ms)
+  [1m[36mGallery Load (0.2ms)[0m  [1mSELECT "galleries".* FROM "galleries" WHERE ("galleries"."id" = 1) LIMIT 1[0m
+Rendered paintings/edit.html.erb within layouts/application (51.7ms)
+Completed 200 OK in 116ms (Views: 55.1ms | ActiveRecord: 0.8ms)
+
+
+Started POST "/paintings/1" for 127.0.0.1 at 2014-01-18 18:52:52 +0800
+  Processing by PaintingsController#update as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"oDJkfKvRwvRhsI/eI/Sg3KCqG1jqI3gvDJZ/OlpUbCo=", "painting"=>{"gallery_id"=>"1", "name"=>"abc", "image"=>#<ActionDispatch::Http::UploadedFile:0x007fbe9371f288 @original_filename="sophie&i.JPG", @content_type="image/jpeg", @headers="Content-Disposition: form-data; name=\"painting[image]\"; filename=\"sophie&i.JPG\"\r\nContent-Type: image/jpeg\r\n", @tempfile=#<File:/var/folders/gv/m43y5g9x1xdc9f2kc2p0kpz00000gn/T/RackMultipart20140118-605-hes7af>>, "remote_image_url"=>""}, "commit"=>"Update Painting", "id"=>"1"}
+  [1m[35mPainting Load (0.2ms)[0m  SELECT "paintings".* FROM "paintings" WHERE ("paintings"."id" = 1) LIMIT 1
+  [1m[36mAREL (0.3ms)[0m  [1mUPDATE "paintings" SET "image" = 'sophie_i.jpg', "updated_at" = '2014-01-18 10:52:52.100905' WHERE ("paintings"."id" = 1)[0m
+  [1m[35mGallery Load (0.2ms)[0m  SELECT "galleries".* FROM "galleries" WHERE ("galleries"."id" = 1) LIMIT 1
+Redirected to http://localhost:3000/galleries/1
+Completed 302 Found in 46ms
+
+
+Started GET "/galleries/1" for 127.0.0.1 at 2014-01-18 18:52:52 +0800
+  Processing by GalleriesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mGallery Load (0.1ms)[0m  [1mSELECT "galleries".* FROM "galleries" WHERE ("galleries"."id" = 1) LIMIT 1[0m
+  [1m[35mPainting Load (0.3ms)[0m  SELECT "paintings".* FROM "paintings" WHERE ("paintings".gallery_id = 1)
+Rendered galleries/show.html.erb within layouts/application (29.8ms)
+Completed 200 OK in 41ms (Views: 32.2ms | ActiveRecord: 1.0ms)
+
+
+Started GET "/paintings/1/edit" for 127.0.0.1 at 2014-01-18 18:53:57 +0800
+  Processing by PaintingsController#edit as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mSQL (0.6ms)[0m  [1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [1m[35mPainting Load (0.3ms)[0m  SELECT "paintings".* FROM "paintings" WHERE ("paintings"."id" = 1) LIMIT 1
+Rendered paintings/_form.html.erb (25.8ms)
+  [1m[36mGallery Load (0.3ms)[0m  [1mSELECT "galleries".* FROM "galleries" WHERE ("galleries"."id" = 1) LIMIT 1[0m
+Rendered paintings/edit.html.erb within layouts/application (51.3ms)
+Completed 200 OK in 121ms (Views: 54.7ms | ActiveRecord: 1.1ms)
+
+
+Started POST "/paintings/1" for 127.0.0.1 at 2014-01-18 18:54:08 +0800
+  Processing by PaintingsController#update as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"oDJkfKvRwvRhsI/eI/Sg3KCqG1jqI3gvDJZ/OlpUbCo=", "painting"=>{"gallery_id"=>"1", "name"=>"jkdsajkda", "image"=>#<ActionDispatch::Http::UploadedFile:0x007f956447ca38 @original_filename="20130918_093314.jpg", @content_type="image/jpeg", @headers="Content-Disposition: form-data; name=\"painting[image]\"; filename=\"20130918_093314.jpg\"\r\nContent-Type: image/jpeg\r\n", @tempfile=#<File:/var/folders/gv/m43y5g9x1xdc9f2kc2p0kpz00000gn/T/RackMultipart20140118-616-i87l9e>>, "remote_image_url"=>""}, "commit"=>"Update Painting", "id"=>"1"}
+  [1m[35mPainting Load (0.2ms)[0m  SELECT "paintings".* FROM "paintings" WHERE ("paintings"."id" = 1) LIMIT 1
+  [1m[36mAREL (0.4ms)[0m  [1mUPDATE "paintings" SET "name" = 'jkdsajkda', "image" = '20130918_093314.jpg', "updated_at" = '2014-01-18 10:54:09.023192' WHERE ("paintings"."id" = 1)[0m
+  [1m[35mGallery Load (0.2ms)[0m  SELECT "galleries".* FROM "galleries" WHERE ("galleries"."id" = 1) LIMIT 1
+Redirected to http://localhost:3000/galleries/1
+Completed 302 Found in 88ms
+
+
+Started GET "/galleries/1" for 127.0.0.1 at 2014-01-18 18:54:09 +0800
+  Processing by GalleriesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mGallery Load (0.1ms)[0m  [1mSELECT "galleries".* FROM "galleries" WHERE ("galleries"."id" = 1) LIMIT 1[0m
+  [1m[35mPainting Load (0.4ms)[0m  SELECT "paintings".* FROM "paintings" WHERE ("paintings".gallery_id = 1)
+Rendered galleries/show.html.erb within layouts/application (56.8ms)
+Completed 200 OK in 67ms (Views: 59.1ms | ActiveRecord: 1.3ms)
+
+
+Started GET "/paintings/new?gallery_id=1" for 127.0.0.1 at 2014-01-18 18:56:06 +0800
+  Processing by PaintingsController#new as HTML
+  Parameters: {"gallery_id"=>"1"}
+Rendered paintings/_form.html.erb (2.4ms)
+  [1m[36mGallery Load (0.1ms)[0m  [1mSELECT "galleries".* FROM "galleries" WHERE ("galleries"."id" = 1) LIMIT 1[0m
+Rendered paintings/new.html.erb within layouts/application (20.0ms)
+Completed 200 OK in 41ms (Views: 24.6ms | ActiveRecord: 0.1ms)
+
+
+Started POST "/paintings" for 127.0.0.1 at 2014-01-18 18:56:42 +0800
+  Processing by PaintingsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"oDJkfKvRwvRhsI/eI/Sg3KCqG1jqI3gvDJZ/OlpUbCo=", "painting"=>{"gallery_id"=>"1", "name"=>"test", "image"=>#<ActionDispatch::Http::UploadedFile:0x007f956615a588 @original_filename="D3Beginning.html", @content_type="text/html", @headers="Content-Disposition: form-data; name=\"painting[image]\"; filename=\"D3Beginning.html\"\r\nContent-Type: text/html\r\n", @tempfile=#<File:/var/folders/gv/m43y5g9x1xdc9f2kc2p0kpz00000gn/T/RackMultipart20140118-616-dhvp6u>>, "remote_image_url"=>""}, "commit"=>"Create Painting"}
+  [1m[35mAREL (0.3ms)[0m  INSERT INTO "paintings" ("gallery_id", "name", "created_at", "updated_at", "image") VALUES (1, 'test', '2014-01-18 10:56:42.739129', '2014-01-18 10:56:42.739129', 'd3beginning.html')
+  [1m[36mGallery Load (0.3ms)[0m  [1mSELECT "galleries".* FROM "galleries" WHERE ("galleries"."id" = 1) LIMIT 1[0m
+Redirected to http://localhost:3000/galleries/1
+Completed 302 Found in 43ms
+
+
+Started GET "/galleries/1" for 127.0.0.1 at 2014-01-18 18:56:42 +0800
+  Processing by GalleriesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mGallery Load (0.1ms)[0m  SELECT "galleries".* FROM "galleries" WHERE ("galleries"."id" = 1) LIMIT 1
+  [1m[36mPainting Load (0.3ms)[0m  [1mSELECT "paintings".* FROM "paintings" WHERE ("paintings".gallery_id = 1)[0m
+Rendered galleries/show.html.erb within layouts/application (30.9ms)
+Completed 200 OK in 60ms (Views: 33.1ms | ActiveRecord: 1.1ms)
+
+
+Started GET "/paintings/new?gallery_id=1" for 127.0.0.1 at 2014-01-18 19:01:02 +0800
+  Processing by PaintingsController#new as HTML
+  Parameters: {"gallery_id"=>"1"}
+Rendered paintings/_form.html.erb (7.5ms)
+  [1m[36mSQL (0.3ms)[0m  [1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [1m[35mGallery Load (0.3ms)[0m  SELECT "galleries".* FROM "galleries" WHERE ("galleries"."id" = 1) LIMIT 1
+Rendered paintings/new.html.erb within layouts/application (60.9ms)
+Completed 200 OK in 121ms (Views: 63.1ms | ActiveRecord: 0.6ms)
+
+
+Started POST "/paintings" for 127.0.0.1 at 2014-01-18 19:01:15 +0800
+  Processing by PaintingsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"oDJkfKvRwvRhsI/eI/Sg3KCqG1jqI3gvDJZ/OlpUbCo=", "painting"=>{"gallery_id"=>"1", "name"=>"test2", "image"=>#<ActionDispatch::Http::UploadedFile:0x007fb9ad5c1f98 @original_filename="D3Beginning.html", @content_type="text/html", @headers="Content-Disposition: form-data; name=\"painting[image]\"; filename=\"D3Beginning.html\"\r\nContent-Type: text/html\r\n", @tempfile=#<File:/var/folders/gv/m43y5g9x1xdc9f2kc2p0kpz00000gn/T/RackMultipart20140118-807-1dg1r2i>>, "remote_image_url"=>""}, "commit"=>"Create Painting"}
+  [1m[36mAREL (0.6ms)[0m  [1mINSERT INTO "paintings" ("gallery_id", "name", "created_at", "updated_at", "image") VALUES (1, 'test2', '2014-01-18 11:01:15.609013', '2014-01-18 11:01:15.609013', 'd3beginning.html')[0m
+  [1m[35mGallery Load (0.2ms)[0m  SELECT "galleries".* FROM "galleries" WHERE ("galleries"."id" = 1) LIMIT 1
+Redirected to http://localhost:3000/galleries/1
+Completed 302 Found in 64ms
+
+
+Started GET "/galleries/1" for 127.0.0.1 at 2014-01-18 19:01:15 +0800
+  Processing by GalleriesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mGallery Load (0.1ms)[0m  [1mSELECT "galleries".* FROM "galleries" WHERE ("galleries"."id" = 1) LIMIT 1[0m
+  [1m[35mPainting Load (0.3ms)[0m  SELECT "paintings".* FROM "paintings" WHERE ("paintings".gallery_id = 1)
+Rendered galleries/show.html.erb within layouts/application (30.4ms)
+Completed 200 OK in 63ms (Views: 32.7ms | ActiveRecord: 1.2ms)
+
+
+Started GET "/" for 127.0.0.1 at 2014-01-18 19:08:38 +0800
+  Processing by GalleriesController#index as HTML
+  [1m[36mGallery Load (0.5ms)[0m  [1mSELECT "galleries".* FROM "galleries"[0m
+  [1m[35mSQL (0.2ms)[0m  SELECT COUNT(*) FROM "paintings" WHERE ("paintings".gallery_id = 1)
+Rendered galleries/index.html.erb within layouts/application (74.9ms)
+Completed 200 OK in 120ms (Views: 77.8ms | ActiveRecord: 0.8ms)
+
+
+Started GET "/galleries/1" for 127.0.0.1 at 2014-01-18 19:08:42 +0800
+  Processing by GalleriesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mSQL (0.3ms)[0m  [1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [1m[35mGallery Load (0.1ms)[0m  SELECT "galleries".* FROM "galleries" WHERE ("galleries"."id" = 1) LIMIT 1
+  [1m[36mPainting Load (0.3ms)[0m  [1mSELECT "paintings".* FROM "paintings" WHERE ("paintings".gallery_id = 1)[0m
+Rendered galleries/show.html.erb within layouts/application (49.5ms)
+Completed 200 OK in 60ms (Views: 51.9ms | ActiveRecord: 0.7ms)
+
+
+Started GET "/galleries/1" for 127.0.0.1 at 2014-01-18 19:10:42 +0800
+  Processing by GalleriesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mGallery Load (0.1ms)[0m  SELECT "galleries".* FROM "galleries" WHERE ("galleries"."id" = 1) LIMIT 1
+  [1m[36mPainting Load (0.3ms)[0m  [1mSELECT "paintings".* FROM "paintings" WHERE ("paintings".gallery_id = 1)[0m
+Rendered galleries/show.html.erb within layouts/application (49.3ms)
+Completed 200 OK in 59ms (Views: 51.6ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/galleries/1" for 127.0.0.1 at 2014-01-18 19:12:46 +0800
+  Processing by GalleriesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mGallery Load (0.2ms)[0m  SELECT "galleries".* FROM "galleries" WHERE ("galleries"."id" = 1) LIMIT 1
+  [1m[36mPainting Load (0.3ms)[0m  [1mSELECT "paintings".* FROM "paintings" WHERE ("paintings".gallery_id = 1)[0m
+Rendered galleries/show.html.erb within layouts/application (51.0ms)
+Completed 200 OK in 63ms (Views: 54.0ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/galleries/1" for 127.0.0.1 at 2014-01-18 19:12:58 +0800
+  Processing by GalleriesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mGallery Load (0.1ms)[0m  SELECT "galleries".* FROM "galleries" WHERE ("galleries"."id" = 1) LIMIT 1
+  [1m[36mPainting Load (0.3ms)[0m  [1mSELECT "paintings".* FROM "paintings" WHERE ("paintings".gallery_id = 1)[0m
+Rendered galleries/show.html.erb within layouts/application (48.8ms)
+Completed 200 OK in 61ms (Views: 51.2ms | ActiveRecord: 0.4ms)
+  [1m[36mSQL (0.5ms)[0m  [1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [1m[35mPainting Load (0.3ms)[0m  SELECT "paintings".* FROM "paintings"
+  [1m[36mPainting Load (0.2ms)[0m  [1mSELECT "paintings".* FROM "paintings" LIMIT 1[0m
+  [1m[35mPainting Load (0.2ms)[0m  SELECT "paintings".* FROM "paintings" LIMIT 1
+  [1m[36mPainting Load (0.3ms)[0m  [1mSELECT "paintings".* FROM "paintings" LIMIT 1[0m
+  [1m[36mPainting Load (0.5ms)[0m  [1mSELECT "paintings".* FROM "paintings" LIMIT 1[0m
+  [1m[35mPainting Load (0.2ms)[0m  SELECT "paintings".* FROM "paintings" LIMIT 1
+
+
+Started GET "/galleries/1" for 127.0.0.1 at 2014-01-18 19:25:15 +0800
+  Processing by GalleriesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mGallery Load (0.1ms)[0m  SELECT "galleries".* FROM "galleries" WHERE ("galleries"."id" = 1) LIMIT 1
+  [1m[36mPainting Load (0.3ms)[0m  [1mSELECT "paintings".* FROM "paintings" WHERE ("paintings".gallery_id = 1)[0m
+Rendered galleries/show.html.erb within layouts/application (64.4ms)
+Completed 200 OK in 75ms (Views: 67.0ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/galleries/1" for 127.0.0.1 at 2014-01-18 19:25:17 +0800
+  Processing by GalleriesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mGallery Load (0.1ms)[0m  SELECT "galleries".* FROM "galleries" WHERE ("galleries"."id" = 1) LIMIT 1
+  [1m[36mPainting Load (0.4ms)[0m  [1mSELECT "paintings".* FROM "paintings" WHERE ("paintings".gallery_id = 1)[0m
+Rendered galleries/show.html.erb within layouts/application (37.1ms)
+Completed 200 OK in 47ms (Views: 39.1ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/uploads/painting/image/20130918_093314.jpg" for 127.0.0.1 at 2014-01-18 19:25:21 +0800
+
+ActionController::RoutingError (No route matches "/uploads/painting/image/20130918_093314.jpg"):
+  
+
+Rendered /Users/twer/.rvm/gems/ruby-1.9.3-p448/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.8ms)
+
+
+Started GET "/uploads/painting/image/css/impress-demo.css" for 127.0.0.1 at 2014-01-18 19:25:28 +0800
+
+ActionController::RoutingError (No route matches "/uploads/painting/image/css/impress-demo.css"):
+  
+
+Rendered /Users/twer/.rvm/gems/ruby-1.9.3-p448/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.7ms)
+
+
+Started GET "/uploads/painting/image/map.jpg" for 127.0.0.1 at 2014-01-18 19:25:28 +0800
+
+ActionController::RoutingError (No route matches "/uploads/painting/image/map.jpg"):
+  
+
+Rendered /Users/twer/.rvm/gems/ruby-1.9.3-p448/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.8ms)
+
+
+Started GET "/uploads/painting/image/js/impress.js" for 127.0.0.1 at 2014-01-18 19:25:28 +0800
+
+ActionController::RoutingError (No route matches "/uploads/painting/image/js/impress.js"):
+  
+
+Rendered /Users/twer/.rvm/gems/ruby-1.9.3-p448/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (1.2ms)
+
+
+Started GET "/uploads/painting/image/favicon.png" for 127.0.0.1 at 2014-01-18 19:25:29 +0800
+
+ActionController::RoutingError (No route matches "/uploads/painting/image/favicon.png"):
+  
+
+Rendered /Users/twer/.rvm/gems/ruby-1.9.3-p448/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.8ms)
+
+
+Started POST "/paintings/5" for 127.0.0.1 at 2014-01-18 19:25:42 +0800
+  Processing by PaintingsController#destroy as HTML
+  Parameters: {"authenticity_token"=>"oDJkfKvRwvRhsI/eI/Sg3KCqG1jqI3gvDJZ/OlpUbCo=", "id"=>"5"}
+  [1m[35mPainting Load (0.3ms)[0m  SELECT "paintings".* FROM "paintings" WHERE ("paintings"."id" = 5) LIMIT 1
+  [1m[36mAREL (0.5ms)[0m  [1mDELETE FROM "paintings" WHERE ("paintings"."id" = 5)[0m
+  [1m[35mGallery Load (0.2ms)[0m  SELECT "galleries".* FROM "galleries" WHERE ("galleries"."id" = 1) LIMIT 1
+Redirected to http://localhost:3000/galleries/1
+Completed 302 Found in 61ms
+
+
+Started GET "/galleries/1" for 127.0.0.1 at 2014-01-18 19:25:42 +0800
+  Processing by GalleriesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mGallery Load (0.2ms)[0m  [1mSELECT "galleries".* FROM "galleries" WHERE ("galleries"."id" = 1) LIMIT 1[0m
+  [1m[35mPainting Load (0.3ms)[0m  SELECT "paintings".* FROM "paintings" WHERE ("paintings".gallery_id = 1)
+Rendered galleries/show.html.erb within layouts/application (62.8ms)
+Completed 200 OK in 75ms (Views: 65.2ms | ActiveRecord: 1.5ms)
+  [1m[36mSQL (0.6ms)[0m  [1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [1m[35mGallery Load (0.2ms)[0m  SELECT "galleries".* FROM "galleries"
+  [1m[36mGallery Load (0.2ms)[0m  [1mSELECT "galleries".* FROM "galleries"[0m
+  [1m[35mSQL (0.2ms)[0m   SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+  [1m[36mAREL (1.6ms)[0m  [1mDELETE FROM "galleries" WHERE ("galleries"."id" = 1)[0m
+  [1m[35mSQL (0.2ms)[0m  SELECT COUNT(*) FROM "galleries"
+
+
+Started GET "/galleries/1" for 127.0.0.1 at 2014-01-18 19:26:10 +0800
+  Processing by GalleriesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mGallery Load (0.1ms)[0m  [1mSELECT "galleries".* FROM "galleries" WHERE ("galleries"."id" = 1) LIMIT 1[0m
+Completed   in 11ms
+
+ActiveRecord::RecordNotFound (Couldn't find Gallery with ID=1):
+  app/controllers/galleries_controller.rb:7:in `show'
+
+Rendered /Users/twer/.rvm/gems/ruby-1.9.3-p448/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (0.8ms)
+Rendered /Users/twer/.rvm/gems/ruby-1.9.3-p448/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (1.9ms)
+Rendered /Users/twer/.rvm/gems/ruby-1.9.3-p448/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (5.3ms)
+
+
+Started GET "/galleries" for 127.0.0.1 at 2014-01-18 19:26:15 +0800
+  Processing by GalleriesController#index as HTML
+  [1m[35mGallery Load (0.3ms)[0m  SELECT "galleries".* FROM "galleries"
+Rendered galleries/index.html.erb within layouts/application (2.1ms)
+Completed 200 OK in 12ms (Views: 4.9ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/galleries/new" for 127.0.0.1 at 2014-01-18 19:26:16 +0800
+  Processing by GalleriesController#new as HTML
+Rendered galleries/_form.html.erb (9.8ms)
+Rendered galleries/new.html.erb within layouts/application (12.6ms)
+Completed 200 OK in 25ms (Views: 15.8ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/galleries" for 127.0.0.1 at 2014-01-18 19:26:25 +0800
+  Processing by GalleriesController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"oDJkfKvRwvRhsI/eI/Sg3KCqG1jqI3gvDJZ/OlpUbCo=", "gallery"=>{"name"=>"Shasha"}, "commit"=>"Create Gallery"}
+  [1m[36mAREL (0.4ms)[0m  [1mINSERT INTO "galleries" ("name", "created_at", "updated_at") VALUES ('Shasha', '2014-01-18 11:26:26.010706', '2014-01-18 11:26:26.010706')[0m
+Redirected to http://localhost:3000/galleries/2
+Completed 302 Found in 18ms
+
+
+Started GET "/galleries/2" for 127.0.0.1 at 2014-01-18 19:26:26 +0800
+  Processing by GalleriesController#show as HTML
+  Parameters: {"id"=>"2"}
+  [1m[35mGallery Load (0.3ms)[0m  SELECT "galleries".* FROM "galleries" WHERE ("galleries"."id" = 2) LIMIT 1
+  [1m[36mPainting Load (0.2ms)[0m  [1mSELECT "paintings".* FROM "paintings" WHERE ("paintings".gallery_id = 2)[0m
+Rendered galleries/show.html.erb within layouts/application (22.2ms)
+Completed 200 OK in 35ms (Views: 24.6ms | ActiveRecord: 0.9ms)
+
+
+Started GET "/paintings/new?gallery_id=2" for 127.0.0.1 at 2014-01-18 19:26:27 +0800
+  Processing by PaintingsController#new as HTML
+  Parameters: {"gallery_id"=>"2"}
+Rendered paintings/_form.html.erb (3.0ms)
+  [1m[35mGallery Load (0.2ms)[0m  SELECT "galleries".* FROM "galleries" WHERE ("galleries"."id" = 2) LIMIT 1
+Rendered paintings/new.html.erb within layouts/application (20.3ms)
+Completed 200 OK in 56ms (Views: 23.3ms | ActiveRecord: 0.2ms)
+
+
+Started POST "/paintings" for 127.0.0.1 at 2014-01-18 19:26:45 +0800
+  Processing by PaintingsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"oDJkfKvRwvRhsI/eI/Sg3KCqG1jqI3gvDJZ/OlpUbCo=", "painting"=>{"gallery_id"=>"2", "name"=>"sasa", "image"=>#<ActionDispatch::Http::UploadedFile:0x007fb6dd409ca0 @original_filename="technology-radar-may-2013.pdf", @content_type="application/pdf", @headers="Content-Disposition: form-data; name=\"painting[image]\"; filename=\"technology-radar-may-2013.pdf\"\r\nContent-Type: application/pdf\r\n", @tempfile=#<File:/var/folders/gv/m43y5g9x1xdc9f2kc2p0kpz00000gn/T/RackMultipart20140118-872-d25l04>>, "remote_image_url"=>""}, "commit"=>"Create Painting"}
+  [1m[36mAREL (0.5ms)[0m  [1mINSERT INTO "paintings" ("gallery_id", "name", "created_at", "updated_at", "image") VALUES (2, 'sasa', '2014-01-18 11:26:45.242183', '2014-01-18 11:26:45.242183', 'technology-radar-may-2013.pdf')[0m
+  [1m[35mGallery Load (0.2ms)[0m  SELECT "galleries".* FROM "galleries" WHERE ("galleries"."id" = 2) LIMIT 1
+Redirected to http://localhost:3000/galleries/2
+Completed 302 Found in 68ms
+
+
+Started GET "/galleries/2" for 127.0.0.1 at 2014-01-18 19:26:45 +0800
+  Processing by GalleriesController#show as HTML
+  Parameters: {"id"=>"2"}
+  [1m[36mGallery Load (0.2ms)[0m  [1mSELECT "galleries".* FROM "galleries" WHERE ("galleries"."id" = 2) LIMIT 1[0m
+  [1m[35mPainting Load (0.2ms)[0m  SELECT "paintings".* FROM "paintings" WHERE ("paintings".gallery_id = 2)
+Rendered galleries/show.html.erb within layouts/application (52.6ms)
+Completed 200 OK in 64ms (Views: 55.5ms | ActiveRecord: 1.1ms)
+
+
+Started GET "/" for 127.0.0.1 at 2014-01-18 19:37:07 +0800
+  Processing by GalleriesController#index as HTML
+  [1m[36mGallery Load (0.3ms)[0m  [1mSELECT "galleries".* FROM "galleries"[0m
+  [1m[35mSQL (0.3ms)[0m  SELECT COUNT(*) FROM "paintings" WHERE ("paintings".gallery_id = 2)
+Rendered galleries/index.html.erb within layouts/application (29.9ms)
+Completed 200 OK in 39ms (Views: 32.1ms | ActiveRecord: 0.7ms)
+
+
+Started GET "/galleries/2" for 127.0.0.1 at 2014-01-18 19:37:11 +0800
+  Processing by GalleriesController#show as HTML
+  Parameters: {"id"=>"2"}
+  [1m[36mGallery Load (0.1ms)[0m  [1mSELECT "galleries".* FROM "galleries" WHERE ("galleries"."id" = 2) LIMIT 1[0m
+  [1m[35mPainting Load (0.2ms)[0m  SELECT "paintings".* FROM "paintings" WHERE ("paintings".gallery_id = 2)
+Rendered galleries/show.html.erb within layouts/application (27.2ms)
+Completed 200 OK in 58ms (Views: 29.5ms | ActiveRecord: 0.4ms)
+  [1m[36mPainting Load (0.5ms)[0m  [1mSELECT "paintings".* FROM "paintings" LIMIT 1[0m
+  [1m[35mPainting Load (0.2ms)[0m  SELECT "paintings".* FROM "paintings" LIMIT 1
+  [1m[36mPainting Load (0.3ms)[0m  [1mSELECT "paintings".* FROM "paintings" LIMIT 1[0m
+
+
+Started GET "/galleries/2" for 127.0.0.1 at 2014-01-18 19:43:20 +0800
+  Processing by GalleriesController#show as HTML
+  Parameters: {"id"=>"2"}
+  [1m[36mSQL (0.7ms)[0m  [1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [1m[35mGallery Load (0.1ms)[0m  SELECT "galleries".* FROM "galleries" WHERE ("galleries"."id" = 2) LIMIT 1
+  [1m[36mPainting Load (0.2ms)[0m  [1mSELECT "paintings".* FROM "paintings" WHERE ("paintings".gallery_id = 2)[0m
+Rendered galleries/show.html.erb within layouts/application (81.5ms)
+Completed 200 OK in 128ms (Views: 84.1ms | ActiveRecord: 1.1ms)
+
+
+Started GET "/paintings/6/download" for 127.0.0.1 at 2014-01-18 19:43:23 +0800
+  Processing by PaintingsController#download as HTML
+  Parameters: {"id"=>"6"}
+  [1m[35mPainting Load (0.3ms)[0m  SELECT "paintings".* FROM "paintings" WHERE ("paintings"."id" = 6) LIMIT 1
+Sent file /Users/twer/Documents/Projects/FileOperator/public/uploads/painting/image/technology-radar-may-2013.pdf (0.1ms)
+Completed 200 OK in 38ms
+
+
+Started GET "/galleries" for 127.0.0.1 at 2014-01-18 19:43:46 +0800
+  Processing by GalleriesController#index as HTML
+  [1m[36mGallery Load (0.4ms)[0m  [1mSELECT "galleries".* FROM "galleries"[0m
+  [1m[35mSQL (0.3ms)[0m  SELECT COUNT(*) FROM "paintings" WHERE ("paintings".gallery_id = 2)
+Rendered galleries/index.html.erb within layouts/application (28.2ms)
+Completed 200 OK in 38ms (Views: 30.6ms | ActiveRecord: 1.0ms)
+
+
+Started GET "/galleries/2" for 127.0.0.1 at 2014-01-18 19:43:54 +0800
+  Processing by GalleriesController#show as HTML
+  Parameters: {"id"=>"2"}
+  [1m[36mGallery Load (0.1ms)[0m  [1mSELECT "galleries".* FROM "galleries" WHERE ("galleries"."id" = 2) LIMIT 1[0m
+  [1m[35mPainting Load (0.3ms)[0m  SELECT "paintings".* FROM "paintings" WHERE ("paintings".gallery_id = 2)
+Rendered galleries/show.html.erb within layouts/application (50.1ms)
+Completed 200 OK in 62ms (Views: 53.4ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/paintings/new?gallery_id=2" for 127.0.0.1 at 2014-01-18 19:43:55 +0800
+  Processing by PaintingsController#new as HTML
+  Parameters: {"gallery_id"=>"2"}
+Rendered paintings/_form.html.erb (5.6ms)
+  [1m[36mGallery Load (0.2ms)[0m  [1mSELECT "galleries".* FROM "galleries" WHERE ("galleries"."id" = 2) LIMIT 1[0m
+Rendered paintings/new.html.erb within layouts/application (44.2ms)
+Completed 200 OK in 63ms (Views: 46.5ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/paintings/new?gallery_id=2" for 127.0.0.1 at 2014-01-18 19:46:12 +0800
+  Processing by PaintingsController#new as HTML
+  Parameters: {"gallery_id"=>"2"}
+Rendered paintings/_form.html.erb (2.0ms)
+  [1m[35mGallery Load (0.3ms)[0m  SELECT "galleries".* FROM "galleries" WHERE ("galleries"."id" = 2) LIMIT 1
+Rendered paintings/new.html.erb within layouts/application (19.7ms)
+Completed 200 OK in 38ms (Views: 22.1ms | ActiveRecord: 0.3ms)

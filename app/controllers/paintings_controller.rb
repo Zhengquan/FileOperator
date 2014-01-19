@@ -33,4 +33,9 @@ class PaintingsController < ApplicationController
     flash[:notice] = "Successfully destroyed painting."
     redirect_to @painting.gallery
   end
+
+  def download
+    @painting = Painting.find(params[:id])
+    send_file @painting.image.path
+  end
 end

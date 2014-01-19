@@ -3,4 +3,5 @@ Picturesque::Application.routes.draw do
 
   resources :galleries
   resources :paintings
+  get 'paintings/:id/download', to: 'paintings#download', as: 'download_painting'
 end
