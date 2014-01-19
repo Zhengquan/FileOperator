@@ -6,3 +6,11 @@ gem 'nifty-generators'
 gem 'mocha', :group => :test
 
 gem "carrierwave"
+
+group :development do
+  gem 'mina'
+end
+
+group :production do
+  gem 'unicorn'
+end
