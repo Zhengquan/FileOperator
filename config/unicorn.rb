@@ -7,7 +7,7 @@
 #
 # See http://unicorn.bogomips.org/Unicorn/Configurator.html for complete
 # documentation.
-app_path = "/var/www/file-operator"
+$app_path = "/var/www/file-operator"
 # Use at least one worker per core if you're on a dedicated server,
 # more will usually help for _short_ waits on databases/caches.
 worker_processes 4
@@ -21,7 +21,7 @@ worker_processes 4
 
 # Help ensure your application will always spawn in the symlinked
 # "current" directory that Capistrano sets up.
-working_directory app_path # available in 0.94.0+
+working_directory "#{$app_path}"# available in 0.94.0+
 
 # listen on both a Unix domain socket and a TCP port,
 # we use a shorter backlog for quicker failover when busy
@@ -32,7 +32,7 @@ listen 8080, :tcp_nopush => true
 timeout 30
 
 # feel free to point this anywhere accessible on the filesystem
-pid "#{app_path}/tmp/pids/unicorn.pid"
+pid "#{$app_path}/tmp/pids/unicorn.pid"
 
 # By default, the Unicorn logger will write to stderr.
 # Additionally, ome applications/frameworks log to stderr or stdout,
