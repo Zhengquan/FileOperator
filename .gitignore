@@ -2,3 +2,7 @@
 .DS_Store
 db
 log
+.bundle
+tmp
+public/uploads
+.sqlite3

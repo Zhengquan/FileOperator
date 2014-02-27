@@ -1,15 +1,6 @@
 require 'test_helper'
 
 class PaintingsControllerTest < ActionController::TestCase
-  def test_index
-    get :index
-    assert_template 'index'
-  end
-
-  def test_show
-    get :show, :id => Painting.first
-    assert_template 'show'
-  end
 
   def test_new
     get :new
@@ -24,8 +15,10 @@ class PaintingsControllerTest < ActionController::TestCase
 
   def test_create_valid
     Painting.any_instance.stubs(:valid?).returns(true)
+    gallery = Gallery.first
+    Painting.any_instance.stubs(:gallery).returns(gallery)
     post :create
-    assert_redirected_to painting_url(assigns(:painting))
+    assert_redirected_to gallery_url(gallery)
   end
 
   def test_edit
@@ -41,14 +34,18 @@ class PaintingsControllerTest < ActionController::TestCase
 
   def test_update_valid
     Painting.any_instance.stubs(:valid?).returns(true)
+    gallery = Gallery.first
+    Painting.any_instance.stubs(:gallery).returns(gallery)
     put :update, :id => Painting.first
-    assert_redirected_to painting_url(assigns(:painting))
+    assert_redirected_to gallery_url(gallery)
   end
 
   def test_destroy
     painting = Painting.first
+    gallery = Gallery.first
+    Painting.any_instance.stubs(:gallery).returns(gallery)
     delete :destroy, :id => painting
-    assert_redirected_to paintings_url
+    assert_redirected_to gallery_url(gallery)
     assert !Painting.exists?(painting.id)
   end
 end
